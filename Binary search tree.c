@@ -317,7 +317,7 @@ int main()
             break;
             
           case 5:pkey=(int*)malloc(sizeof(int));
-            printf("Enter the data to be searched: ");
+            printf("Enter the data to be deleted: ");
             scanf("%d",pkey);
             if(deletenode(t,pkey))
             printf("delete");
