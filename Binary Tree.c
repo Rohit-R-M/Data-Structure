@@ -76,7 +76,7 @@ bool find_key(BTREE* t,TNODE* root,void* pkey)
 				return true;
 		if(root->rc)
 			if(find_key(t,root->rc,pkey))
-				return false;
+				return true;
 	}
 	return false;
 }
