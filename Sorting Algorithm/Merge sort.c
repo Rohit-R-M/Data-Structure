@@ -1,89 +1,78 @@
-#include <stdio.h>
+//Merge Sort
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
 
-void merge(int arr[], int left, int mid, int right) 
+void merge(int arr[],int low,int mid,int high)
 {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+	int n1=mid-low+1; //length of first half
+	int n2=high-mid; //length of seconf half
 
-    int L[n1], R[n2];
-
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
-        R[j] = arr[mid + 1 + j];
-
-    int i = 0, j = 0, k = left;
-
-    while (i < n1 && j < n2) 
-    {
-        if (L[i] <= R[j]) 
-        {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    while (i < n1) 
-    {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-    while (j < n2) 
-    {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
+	int a[n1],b[n2];    //temp variables
+	
+	for(int x=0;x<n1;x++)
+		a[x] = arr[low+x];
+	for(int y=0;y<n2;y++)
+		b[y] = arr[mid+1+y];
+		
+	int i=0,j=0,k=low;
+	
+	while(i<n1 && j<n2)
+	{
+		if(a[i]<=b[j])	
+			arr[k++] = a[i++];
+		else
+		 	arr[k++] = b[j++];
+	}
+	
+	while(i<n1)
+		arr[k++] = a[i++];
+			
+	while(j<n2)
+		arr[k++] = b[j++];		
+	
 }
 
-void mergeSort(int arr[], int left, int right) 
+void mergesort(int arr[],int low,int high)
 {
-    if (left < right) 
-    {
-        int mid = left + (right - left) / 2;
-
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
-
-        merge(arr, left, mid, right);
-    }
+	if(low<high)
+	{
+		int mid=(low+high)/2;
+		
+		mergesort(arr,low,mid);
+		mergesort(arr,mid+1,high);
+		merge(arr,low,mid,high);
+	}	
 }
 
-void printArray(int arr[], int size) 
+int main()
 {
-    for (int i = 0; i < size; i++) 
-    {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
+	int n,i;
+	
+	printf("Enter the size of the array:\n");
+	scanf("%d",&n);
+	
+	int arr[n];
+	
+	printf("Generating %d elements:\n",n);
+	for(i=0;i<n;i++)
+	{
+		arr[i]=rand()%1000;
+		printf("%d ",arr[i]);
+	}
+	
+	float start = clock();
+	
+	mergesort(arr,0,n-1);
+	
+	float end = clock();
+	
+	float tt=end-start/CLOCKS_PER_SEC;
+	
+	printf("\nSorted Elements are:\n");
+	for(i=0;i<n;i++)
+		printf("%d ",arr[i]);
+		
+	printf("\nTotal Time Taken %f",tt);
 
-int main() 
-{
-    int n;
-
-    printf("Enter the size of the array: \n");
-    scanf("%d", &n);
-
-    int arr[n];
-
-    printf("Enter the %d numbers: \n", n);
-    for (int i = 0; i < n; i++)
-        scanf("%d", &arr[i]);
-
-    printf("Original array: \n");
-    printArray(arr, n);
-
-    mergeSort(arr, 0, n - 1);
-
-    printf("Sorted array: \n");
-    printArray(arr, n);
-
-    return 0;
 }
